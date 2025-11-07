@@ -1,0 +1,5 @@
+---
+- name: Write file via dev_write_module
+  netology_devops.learning.dev_write_module:
+    path: "{{ path }}"
+    content: "{{ content }}"

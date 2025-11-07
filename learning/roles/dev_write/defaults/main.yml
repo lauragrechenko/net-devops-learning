@@ -1,0 +1,4 @@
+---
+# Defaults for the role (can override in play)
+path: /tmp/hello.txt
+content: "Hello from role default"

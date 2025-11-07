@@ -1,0 +1,21 @@
+# Python / Ansible
+__pycache__/
+*.pyc
+*.retry
+.cache/
+.mypy_cache/
+.tox/
+.pytest_cache/
+
+# Envs / IDE
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Ansible Galaxy build artifacts
+*.tar.gz
+
+# Molecule / Docker
+.molecule/
+.dist/
