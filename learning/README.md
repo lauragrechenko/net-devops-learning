@@ -1,12 +1,13 @@
 # Ansible Collection - netology_devops.learning
 
-This is a learning Ansible collection created for educational purposes. It contains a custom module and role for file writing operations.
+This is a learning Ansible collection created for educational purposes. It contains custom modules and roles for file operations and cloud infrastructure management.
 
 ## Description
 
-The `netology_devops.learning` collection provides tools for managing file content in an idempotent manner. It includes:
+The `netology_devops.learning` collection provides tools for file management and cloud infrastructure automation. It includes:
 
 - **dev_write_module**: A custom Ansible module for creating/overwriting text files with specified content
+- **yc_instance**: Module for managing Yandex Cloud virtual machines via the `yc` CLI
 - **dev_write role**: A wrapper role that simplifies the use of the dev_write_module
 
 ## Installation
@@ -32,13 +33,19 @@ ansible-galaxy collection install netology_devops-learning-1.0.0.tar.gz
   - Idempotent operation (only changes file if content differs)
   - Supports check mode
 
+- **yc_instance**: Manages Yandex Cloud VM instances
+  - Creates instances with custom sizing (CPU, RAM, disk)
+  - Supports preemptible instances and NAT configuration
+  - SSH key injection
+  - Requires `yc` CLI installed and configured
+
 ### Roles
 
 - **dev_write**: Simple role that wraps the dev_write_module for easy playbook integration
 
 ## Using This Collection
 
-### Using the Module Directly
+### dev_write_module
 
 ```yaml
 - name: Write a configuration file
@@ -47,7 +54,25 @@ ansible-galaxy collection install netology_devops-learning-1.0.0.tar.gz
     content: "Configuration data here"
 ```
 
-### Using the Role
+### yc_instance
+
+```yaml
+- name: Create Yandex Cloud instance
+  netology_devops.learning.yc_instance:
+    name: demo-vm
+    folder_id: "{{ yc_folder_id }}"
+    zone: ru-central1-a
+    subnet_id: "{{ yc_subnet_id }}"
+    image_id: "{{ yc_image_id }}"
+    cores: 2
+    memory_gb: 4
+    disk_gb: 20
+    preemptible: false
+    nat: true
+    ssh_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+```
+
+### dev_write role
 
 ```yaml
 - name: Use dev_write role
@@ -62,6 +87,7 @@ ansible-galaxy collection install netology_devops-learning-1.0.0.tar.gz
 
 - Ansible 2.14 or higher
 - Python 3.6 or higher
+- `yc` CLI (for yc_instance module only)
 
 ## License
 
